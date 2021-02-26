@@ -1,7 +1,6 @@
 import httplib2
 import os
 import time
-import sys
 
 from apiclient.discovery import build
 from oauth2client.client import flow_from_clientsecrets
@@ -36,7 +35,7 @@ class Youtube:
 
         # This OAuth 2.0 access scope allows for read-only access to the authenticated
         # user's account, but not other types of account access.
-        YOUTUBE_READ_WRITE_SCOPE  = "https://www.googleapis.com/auth/youtube"
+        YOUTUBE_READ_WRITE_SCOPE  = "https://www.googleapis.com/auth/youtube.force-ssl"
         YOUTUBE_API_SERVICE_NAME = "youtube"
         YOUTUBE_API_VERSION = "v3"
 
@@ -44,7 +43,7 @@ class Youtube:
             message=MISSING_CLIENT_SECRETS_MESSAGE,
             scope=YOUTUBE_READ_WRITE_SCOPE )
 
-        storage = Storage("%s-oauth2.json" % sys.argv[0])
+        storage = Storage("yt-oauth2.json")
         credentials = storage.get()
 
         if credentials is None or credentials.invalid:
