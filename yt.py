@@ -84,12 +84,13 @@ class Youtube:
         while request:
             response = request.execute()
             items = response['items']
-            playlists.extend([
-                {
+            for item in items:
+                playlists.append({
                     "id": item['id'],
-                    "title": item['snippet']['title']
-                } for item in items
-            ])
+                    "title": item['snippet']['title'],
+                    "thumbnail_url": list(item['snippet']['thumbnails'].values())[-1]['url'],
+                    "keywords": item['snippet']['description'],
+                })
             request = self.client.playlistItems().list_next(request, response)
 
         return playlists
@@ -128,6 +129,6 @@ class Youtube:
                     ),
                 )
             ).execute()
-            # time.sleep(2) # Quota limit..
+            time.sleep(1) # Quota limit..
 
         return playlist_id
